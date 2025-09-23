@@ -1,0 +1,37 @@
+#!/bin/bash
+#$ -pe smp 32
+#$ -N Fastqc
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-0)
+#$ -o Fastqc-stdo.output
+#$ -e Fastqc-stderr.output
+
+# Criar diretório para os resultados do FastQC
+mkdir -p fastqc_results_trimommatic
+
+
+# Loop para processar cada arquivo corrigido
+for file in *_paired_*.fq.gz; do
+    if [ -f "$file" ]; then
+        echo "Rodando FastQC para: $file"
+
+        # Registrar o tempo de início
+        start_time=$(date +%s)
+
+        # Executar o FastQC dentro do container Singularity
+        singularity exec /share/apps/singularity/orca-3.simg fastqc -t 30 "$file" --outdir=fastqc_results_trimommatic
+
+        # Registrar o tempo de término
+        end_time=$(date +%s)
+
+        # Calcular e exibir o tempo decorrido
+        elapsed_time=$((end_time - start_time))
+        echo "Tempo de processamento para $file: $elapsed_time segundos"
+    else
+        echo "Arquivo não encontrado: $file"
+    fi
+done
+
+echo "Análise FastQC concluída! Resultados estão na pasta 'fastqc_results_trimommatic'."
