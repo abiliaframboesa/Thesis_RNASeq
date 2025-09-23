@@ -1,13 +1,11 @@
-# Ficheiro com informação sobre eggnog, go, kegg_Pathways
-# Normalizar os nomes dos clusters para ficar padronizado com o resto dos nomes dos clusters
-
+# Ficheiro de anotações com informação sobre eggnog, go, kegg_Pathways
+# Normalizar os nomes dos clusters para ficar padronizado 
 
 import pandas as pd
 import re
 
-# Lê o ficheiro XLSX ou CSV separado por tabulação
-# Substitui 'arquivo.xlsx' pelo teu ficheiro
-df = pd.read_excel("clusters_summary.xlsx")  # ou pd.read_csv("arquivo.csv", sep='\t')
+# Lê o ficheiro XLSX 
+df = pd.read_excel("eggnog_final_anotado.xlsx")  
 
 # Função para converter IDs
 def converter_id(gene_id):
@@ -20,9 +18,8 @@ def converter_id(gene_id):
 # Aplica a conversão à coluna 'gene'
 df['gene'] = df['gene'].apply(converter_id)
 
-# Salva de volta para XLSX ou CSV
+# Salva de volta para XLSX 
 df.to_excel("anotacoes_convertidas.xlsx", index=False)
-# ou para CSV tabulado:
 # df.to_csv("anotacoes_convertidas.csv", sep='\t', index=False)
 
 print("Conversão concluída com sucesso!")
