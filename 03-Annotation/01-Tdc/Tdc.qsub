@@ -1,0 +1,13 @@
+#!/bin/bash
+#$ -pe smp 15
+#$ -N Tdc
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-13)
+#$ -o Tdc-stdo.output
+#$ -e Tdc-stderr.output
+
+singularity exec /share/apps/singularity/transdecoder_v5.5.0.simg TransDecoder.LongOrfs -t Trinity_NCont_Clusters.fasta;
+
+exit
