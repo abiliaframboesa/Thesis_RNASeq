@@ -1,0 +1,22 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Corset
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-11)
+#$ -o Corset.output
+#$ -e Corset.output
+
+singularity exec /share/apps/singularity/corset.simg corset -g 1,1,1,1,2,2,2,3,3,3,4,4,4, -n S320_1G_1_sorted,S320_1G_3_sorted,S320_1G_4_sorted,S320_1G_5_sorted,S320T_4G_2_sorted,S320T_4G_3_sorted,S320T_4G_5_sorted,SC_1G_2_sorted,SC_1G_3_sorted,SC_1G_5_sorted,SC_4G_1_sorted,SC_4G_2_sorted,SC_4G_3_sorted *.bam
+
+
+/home/amachado/SW/corset/Corset-tools-master/fetchClusterSeqs.py -i Trinity_C.fasta -l -o Trinity_C_Clusters.fasta -c clusters.txt
+
+awk -F"\t" '{print $1}' counts.txt > counts_heads.txt
+grep '^>' Trinity_C_Clusters.fasta > Trinity_C_Clusters_heads.txt
+awk -F_ '{print $1}' Trinity_C_Clusters_heads.txt > Trinity_C_Clusters_heads_clean.txt
+
+
+
+exit
