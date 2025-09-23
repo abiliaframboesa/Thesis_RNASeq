@@ -1,4 +1,3 @@
-# Normalizar nome da primeira coluna da tabela de anotações de Cluster para gene 
 # Normalizar Cluster_ids para ficarem no mesmo formato em todos os ficheiros 
 # import pandas as pd
 
