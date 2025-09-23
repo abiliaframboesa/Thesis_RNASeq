@@ -1,3 +1,5 @@
+# 1) ----------------------------------------------------------------------------------------------------
+# Merge dos chunks anotados com eggNog 
 import pandas as pd
 import glob
 import os
@@ -36,3 +38,34 @@ df_eggnog_master.rename(columns={
 # Salva como CSV final
 df_eggnog_master.to_csv("eggnog_master.csv", index=False)
 print("Master eggNOG CSV gerado com sucesso:", df_eggnog_master.shape)
+
+# 2) ----------------------------------------------------------------------------------------------------
+# Remover colunas que não interessam para a anotaçáo final
+
+import pandas as pd
+
+# Caminho do arquivo original
+input_file = "eggnog_master.csv"  # ou .tsv, dependendo do separador
+
+# Carregar o arquivo. 
+df = pd.read_csv(input_file, sep=",")  
+
+# Escolha apenas as colunas que você quer manter
+colunas_desejadas = [
+    "query_id",
+    "eggNOG_description",
+    "Preferred_name",
+    "GO_eggnog",
+    "KEGG_ko",
+    "KEGG_Pathway",
+    "EC"
+]
+
+# Criar novo DataFrame com apenas essas colunas
+df_filtrado = df[colunas_desejadas]
+
+# Salvar em um novo arquivo CSV
+df_filtrado.to_csv("eggnog_final.csv", index=False)
+
+print("Arquivo filtrado criado com sucesso!")
+
