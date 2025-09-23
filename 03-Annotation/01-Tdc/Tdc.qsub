@@ -8,6 +8,7 @@
 #$ -o Tdc-stdo.output
 #$ -e Tdc-stderr.output
 
+# Correr TransDecoder para identificar as Longest_ORFs
 singularity exec /share/apps/singularity/transdecoder_v5.5.0.simg TransDecoder.LongOrfs -t Trinity_NCont_Clusters.fasta;
 
 exit
