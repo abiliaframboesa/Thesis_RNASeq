@@ -1,7 +1,8 @@
-# Objetivo será da anotação completa do BLastP para NCBI nr filtrar apenas o nome do cluster(query_id) e o código da proteína do NCBI nr
+# Objetivo será filtrar apenas  o nome do cluster(query_id) e o código da proteína do NCBI nr feita através da anotação completa do BLastP para NCBI nr 
+# O ficheiro de input vem da pasta da anotação onde se faz a anotação para o NCBI nr
 
 input_file = "results/final_anotation/blastp_ncbi_nr_final.csv"
-output_file = "results/final_anotation/blastp_nr_filtrado_sem_especie.csv"
+output_file = "results/final_anotation/filter_cluster_and_protein_id.csv"
 
 import re
 
