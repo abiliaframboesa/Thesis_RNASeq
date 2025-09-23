@@ -1,0 +1,39 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Nla_Corset-Mapp
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=(compute-0-2|compute-0-4)
+#$ -o Nla_Corset-Mapp-stdo.output
+#$ -e Nla_Corset-Mapp-stderr.output
+#$ -t 1-14
+
+INFILE1=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f1)
+INFILE2=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f2)
+INFILE3=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f3)
+INFILE4=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f4)
+INFILE5=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f5)
+INFILE6=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f6)
+INFILE7=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f7)
+INFILE8=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f8)
+INFILE9=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f9)
+INFILE10=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f10)
+INFILE11=$(head -n $SGE_TASK_ID ConfigFile1.txt | tail -n1|cut -f11)
+
+pigz -p 30 -d $INFILE10
+pigz -p 30 -d $INFILE11
+
+singularity exec /share/apps/singularity/orca-2.simg bowtie2 --threads 30 --no-mixed --no-discordant --end-to-end --all --score-min L,-0.1,-0.1 -x Trinity_C.fasta -1 $INFILE1 -2 $INFILE2 -S $INFILE3
+singularity exec /share/apps/singularity/orca-6.simg samtools view -@ 30 -Sb $INFILE3 > $INFILE4 
+singularity exec /share/apps/singularity/orca-6.simg samtools sort -@ 30 $INFILE4 -o $INFILE5
+singularity exec /share/apps/singularity/orca-6.simg samtools index $INFILE5
+#singularity exec /share/apps/singularity/orca-6.simg samtools flagstat $INFILE5 > $INFILE6
+
+rm $INFILE3
+rm $INFILE4
+
+pigz -p 30 $INFILE1
+pigz -p 30 $INFILE2
+
+exit
