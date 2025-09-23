@@ -1,0 +1,14 @@
+sample_id,group,generation,grupo_combinado
+SC_1G_2_sorted,SC,F0,F0_SC
+SC_1G_3_sorted,SC,F0,F0_SC
+SC_1G_5_sorted,SC,F0,F0_SC
+SC_4G_1_sorted,SC,F3,F3_SC
+SC_4G_2_sorted,SC,F3,F3_SC
+SC_4G_3_sorted,SC,F3,F3_SC
+S320_1G_1_sorted,S320,F0,F0_S320
+S320_1G_3_sorted,S320,F0,F0_S320
+S320_1G_4_sorted,S320,F0,F0_S320
+S320_1G_5_sorted,S320,F0,F0_S320
+S320T_4G_2_sorted,S320,F3,F3_S320
+S320T_4G_3_sorted,S320,F3,F3_S320
+S320T_4G_5_sorted,S320,F3,F3_S320
