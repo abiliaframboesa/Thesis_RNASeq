@@ -21,6 +21,6 @@ def converter_id(gene_id):
 df['gene'] = df['gene'].apply(converter_id)
 
 # Salva de volta para XLSX 
-df.to_excel("anotacoes_convertidas.xlsx", index=False)
+df.to_excel("anotacoes_normalizadas.xlsx", index=False)
 
 print("Conversão concluída com sucesso!")
