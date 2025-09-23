@@ -8,21 +8,11 @@
 #$ -o Trans.output
 #$ -e Trans.output
 
-# Carregar o módulo Singularity se necessário
-# module load singularity  # Descomente esta linha se o seu cluster exigir
+# Trinity_C
+/home/dsimoes/DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/03-Stats/transrate/transrate --assembly Trinity_C.fasta --output ./transrate_C_v0 --threads 30 1>trate_C_v0.log 2>trate_C_v0.err
 
-# Mostrar hora de início
-echo "Início do job: $(date)"
+# Trinity_All
+#/home/dsimoes/DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/03-Stats/transrate/transrate --assembly Trinity_All.fasta --output ./transrate_All_v0 --threads 30 1>trate_All_v0.log 2>trate_All_v0.err
 
-# Correr Transrate dentro do container Singularity
-singularity exec \
-  -B /DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/03-Stats:/mnt \
-  /share/apps/singularity/transrate.simg \
-  transrate --assembly /mnt/Trinity_C.fasta \
-            --output /mnt/transrate_C_v0 \
-            --threads 30 \
-            1>/mnt/trate_C_v0.log \
-            2>/mnt/trate_C_v0.err
-echo "Fim do job: $(date)"
 exit
 
