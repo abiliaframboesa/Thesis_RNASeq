@@ -54,7 +54,7 @@ df = pd.read_csv(input_file, sep=",")
 colunas_desejadas = [
     "query_id",
     "eggNOG_description",
-    "Preferred_name",
+    "COG_category",
     "GO_eggnog",
     "KEGG_ko",
     "KEGG_Pathway",
