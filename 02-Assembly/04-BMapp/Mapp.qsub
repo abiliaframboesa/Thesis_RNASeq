@@ -1,0 +1,39 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Mapp_CV0
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=(compute-0-0|compute-0-1)
+#$ -o Mapp_CV0-stdo.output
+#$ -e Mapp_CV0-stderr.output
+#$ -t 1-15
+
+INFILE1=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f1)
+INFILE2=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f2)
+INFILE3=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f3)
+INFILE4=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f4)
+INFILE5=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f5)
+INFILE6=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f6)
+INFILE7=$(head -n $SGE_TASK_ID Config_CV0.txt | tail -n1|cut -f7)
+
+singularity exec /share/apps/singularity/orca-2.simg bowtie2 --threads 30 -q -x $INFILE1 -1 $INFILE2 -2 $INFILE3 > $INFILE4
+
+singularity exec /share/apps/singularity/orca-6.simg samtools view -@ 30 -Sb $INFILE4 -o $INFILE5 #Convert alignment SAM to BAM format (binary)
+
+singularity exec /share/apps/singularity/orca-6.simg samtools sort -@ 30 $INFILE5 -o $INFILE6
+
+rm $INFILE4
+
+rm $INFILE5
+
+singularity exec /share/apps/singularity/orca-6.simg samtools index $INFILE6
+
+singularity exec /share/apps/singularity/orca-6.simg samtools flagstat $INFILE6 > $INFILE7
+
+#singularity exec /share/apps/singularity/orca-6.simg samtools view -f 4 -@ 30 -Sb $INFILE3 -o $INFILE4
+
+#singularity exec /share/apps/singularity/orca-5.simg picard SamToFastq INPUT=$INFILE4 FASTQ=$INFILE5 SECOND_END_FASTQ=$INFILE6
+
+
+exit
