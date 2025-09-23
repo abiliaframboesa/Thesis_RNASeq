@@ -22,7 +22,7 @@ for file in *_1.fq.gz; do
         ${base}_1.fq.gz ${base}_2.fq.gz \
         ${base}_paired_1.fq.gz ${base}_unpaired_1.fq.gz \
         ${base}_paired_2.fq.gz ${base}_unpaired_2.fq.gz \
-        ILLUMINACLIP:/export/home/dsimoes/DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/01-Raw_Data/02-Tmm_final/TruSeq3.fa:2:30:10 \
+        ILLUMINACLIP:/export/home/dsimoes/DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/01-Raw_Data/02-Tmm/TruSeq3.fa:2:30:10 \
         LEADING:5 TRAILING:5 SLIDINGWINDOW:4:15 MINLEN:36 \
         2>&1 | tee ${base}_Trimm.log
     else
