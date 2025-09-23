@@ -1,0 +1,13 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N BuscoArt_All
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l h=!(compute-0-13)
+#$ -o BuscoArt_All.output
+#$ -e BuscoArt_All.output
+
+singularity exec /share/apps/singularity/busco.v5.5.0.simg busco -i Trinity_All.fasta -o BuscoArt_SC -l /share/data03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/04-Buscos/arthropoda_odb10 -m tran --offline -c 30 1>BuscoArt_All.log 2>BuscoArt_All.err
+
+exit
