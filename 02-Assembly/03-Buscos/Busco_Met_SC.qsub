@@ -10,8 +10,6 @@
 
 singularity exec /share/apps/singularity/busco.v5.5.0.simg busco -i Trinity_C.fasta -o BuscoMet_SC -l /share/data03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/04-Buscos/metazoa_odb10 -m tran --offline -c 30 1>BuscoMet_SC.log 2>BuscoMet_SC.err
 
-singularity exec /share/apps/singularity/busco.v5.5.0.simg busco -i Trinity_C.fasta -o BuscoMet_SC -l /share/data03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/02-Assembly/04-Buscos/metazoa_odb10 -m tran --offline -c 30 1>BuscoMet_SC.log 2>BuscoMet_SC.err
-
 exit
 
 
