@@ -1,0 +1,49 @@
+# Performed on Galaxy Europe 
+
+Passo 1: BlastP
+Diamond alignment tool for short sequences against a protein database
+(Galaxy Version 2.1.13+galaxy0)
+CONTRA  NCBI NR 2023-07-28, RefSeq 2023-07-14, UniProtKB SwissProt 2023-03
+
+(blastp/blastx) amino acid query sequence
+(--comp-based-stats) Default mode Hauser, 2016
+use a built-in index NCBI NR 2023-07-28
+(--taxonlist) 6656
+(--sensitive) 
+(--block-size) 2.0
+(--matrix) BLOSUM62
+(--masking) Tantan
+(--evalue) 0,001
+(--algo) Double indexed (0)
+(--max-target-seqs) 25
+(--id) 30
+ (--query-cover) 50
+(--subject-cover) 50
+
+Passo 2: InterProScan
+(--seqtype) protein
+InterProScan 5.59-91.0
+Só pfam
+(--pathways) yes
+(--goterms) yes
+Output format  tsv
+
+
+Passo 3: eggNOG-mapper
+Galaxy Version 2.1.8+galaxy4
+version 5.0.2 do eggnog database
+
+Seed orthologs computed with diamond (-m)
+(--itype) proteins
+(--matrix) BLOSUM62
+(--sensmode) sensitive
+(--query_cover) 50
+(--subject_cover) 50
+(--pident) 30
+(--score) 0.001
+Annotate seed orthologs
+(--no_annot) yes
+(--seed_ortholog_evalue) 0.001
+(--tax_scope) 6656
+(--target_orthologs) all
+(--go_evidence) non eletronic
