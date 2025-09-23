@@ -6,6 +6,8 @@ TransDegAnalyser is a user-friendly R Shiny application designed to perform comp
 
 The central goal of the app is to help researchers uncover persistent biological effects that are inherited across generations that were never directly exposed to an environmental stimulus.
 
+![Welcome Interface](05-App/images/welcome_tab.png)
+
 Why Transgenerational Effects Matter?
 In the context of a maternal exposure, the F3 generation is the first cohort to be truly "transgenerational," as it is derived from a germline that has never been directly exposed to the original stimulus. Conversely, for a paternal exposure, this is the F2 generation. Identifying and analyzing gene expression changes in these specific generations is key to understanding non-genomic inheritance.
 
