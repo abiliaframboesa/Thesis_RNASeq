@@ -1,0 +1,34 @@
+#!/bin/bash
+#$ -pe smp 32
+#$ -N trimmomatic
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-9|compute-0-11)
+#$ -o trimmomatic.output
+#$ -e trimmomatic.output
+
+
+# Loop para processar arquivos emparelhados
+for file in *_1.fq.gz; do
+    # Base do nome da amostra (removendo o sufixo _1.fq.gz)
+    base=$(basename "$file" _1.fq.gz)
+
+    # Verificar se o arquivo correspondente _2.fq.gz existe
+    if [[ -f ${base}_2.fq.gz ]]; then
+        echo "Processando: $base"
+        singularity exec /share/apps/singularity/orca-6.simg trimmomatic PE \
+        -threads 30 -phred33 \
+        ${base}_1.fq.gz ${base}_2.fq.gz \
+        ${base}_paired_1.fq.gz ${base}_unpaired_1.fq.gz \
+        ${base}_paired_2.fq.gz ${base}_unpaired_2.fq.gz \
+        ILLUMINACLIP:/export/home/dsimoes/DATA03/dsimoes/Gammaruslocusta/RNASeq/01-Glocusta_RNASeq/01-Raw_Data/02-Tmm_final/TruSeq3.fa:2:30:10 \
+        LEADING:5 TRAILING:5 SLIDINGWINDOW:4:15 MINLEN:36 \
+        2>&1 | tee ${base}_Trimm.log
+    else
+        echo "Erro: Arquivo correspondente ${base}_2.fq.gz não encontrado."
+    fi
+done
+
+exit
+
