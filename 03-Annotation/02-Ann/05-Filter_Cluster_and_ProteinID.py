@@ -1,7 +1,7 @@
 # Selecionar apenas informação sobre o nome do cluster e o ID da proteína associada ao NCBI nr
 
 input_file = "results/final_anotation/blastp_ncbi_nr_final.csv"
-output_file = "results/final_anotation/blastp_nr_filtrado_sem_especie.csv"
+output_file = "results/final_anotation/filter_cluster_and_protein_id.csv"
 
 import re
 
