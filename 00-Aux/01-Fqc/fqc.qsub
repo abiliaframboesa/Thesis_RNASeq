@@ -1,0 +1,24 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Fastqc
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-0)
+#$ -o Fastqc-stdo.output
+#$ -e Fastqc-stderr.output
+#$ -t 1-26
+
+INFILE1=$(head -n $SGE_TASK_ID ConfigFile_2nd | tail -n1|cut -f1)
+INFILE2=$(head -n $SGE_TASK_ID ConfigFile_2nd | tail -n1|cut -f2)
+
+
+singularity exec /share/apps/singularity/pigz_v2.4.simg pigz -p 30 -d $INFILE1
+
+singularity exec /share/apps/singularity/orca-3.simg fastqc -t 30 \
+$INFILE2
+
+singularity exec /share/apps/singularity/pigz_v2.4.simg pigz -p 30 $INFILE2
+
+
+exit
