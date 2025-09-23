@@ -1,5 +1,6 @@
-# Remover os maps repetidos do kegg_pathway visto que eram iguais aos identificadores de ko e remoção de go_bp, go_mf, go_cc para ficar apenas com coluna go 
-# para evitar informação duplicada, já que as colunas eram iguais.
+# Remover os identificadores map do kegg_pathway visto que eram iguais aos identificadores de ko. 
+# E optámos por manter os identificadores de ko. 
+# Remoção de go_bp, go_mf, go_cc para ficar apenas com coluna go para evitar informação duplicada, já que as colunas eram iguais.
 
 import pandas as pd
 import re
