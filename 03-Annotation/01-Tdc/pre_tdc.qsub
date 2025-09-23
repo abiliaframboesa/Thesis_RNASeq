@@ -1,0 +1,19 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Agat
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$-l h=!(compute-0-13)
+#$ -o Agat-stdo.output
+#$ -e Agat-stderr.output
+
+##################Pre-Trandescoder##################
+
+grep '^>' Trinity_NCont_Clusters.fasta | sed 's/>//g' | awk -F'\t' '{OFS="\t"; $2 = $1; print}' | awk 'BEGIN{FS=OFS="\t"} {sub(/_.*/, "", $2); print}' | awk 'BEGIN{FS=OFS="\t"} {gsub(/[-.]/, "_", $2); print}' | sort -t$'\t' -k2,2 > Annotation_1line.gff3 #Dictionary of correspondence OldHeadrs/NewHeaders 
+
+awk 'BEGIN{FS=OFS="\t"} NR==FNR{map[$1]=$2; next} /^>/{header=$0; gsub(/^>/, "", header); if(map[header]) print ">" map[header]; else print; next} {print}' Annotation_1line.gff3 Trinity_NCont_Clusters.fasta > Trinity_NCont_Clusters_C.fasta
+
+grep '^>' Trinity_NCont_Clusters_C.fasta > Trinity_NCont_Clusters_C_Headers.txt
+
+
