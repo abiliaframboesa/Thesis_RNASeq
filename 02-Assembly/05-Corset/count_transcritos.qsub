@@ -1,0 +1,43 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N CountsTranscritos
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-11)
+#$ -o featurecounts_output.log
+#$ -e featurecounts_error.log
+
+# Carregar módulos necessários
+module load subread  # ou adapta conforme o nome do módulo de featureCounts
+
+# Caminho para a imagem Singularity do Trinity
+TRINITY_IMG="/share/apps/singularity/trinity_v2.15.1.simg"
+
+# 1. Gerar o gene-transcript map
+singularity exec "$TRINITY_IMG" \
+  /opt/trinityrnaseq/util/misc/trinity_fasta_to_gene_trans_map.pl Trinity_C.fasta > Trinity_C.gene_trans_map
+
+# 2. Gerar o GTF
+singularity exec "$TRINITY_IMG" \
+  /opt/trinityrnaseq/util/misc/prepare_trinity_gene_map.pl Trinity_C.gene_trans_map > Trinity_C.gtf
+
+# 3. Verificar se todos os BAMs estão indexados (.bai)
+for BAM in *.bam; do
+    if [ ! -f "${BAM}.bai" ]; then
+        echo "Indexando ${BAM}"
+        samtools index "$BAM"
+    fi
+done
+
+# 4. Contar os reads por transcrito usando featureCounts
+featureCounts -T 8 \
+  -a Trinity_C.gtf \
+  -o transcript_counts.txt \
+  -t exon -g transcript_id \
+  *.bam
+
+
+
+exit
+
