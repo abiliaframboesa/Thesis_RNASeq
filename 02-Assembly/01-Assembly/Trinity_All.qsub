@@ -1,0 +1,29 @@
+#!/bin/bash
+#$ -pe smp 32
+#$ -N NLA-TrinityAll
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=(compute-0-0)
+#$ -o NLA-TrinityAll-stdo.output
+#$ -e NLA-TrinityAll-stderr.output
+
+cat *_paired_1.cor.fq.gz > All_paired_1.cor.fq.gz
+
+cat *_paired_2.cor.fq.gz > All_paired_2.cor.fq.gz
+
+export LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}
+
+singularity exec /share/apps/singularity/trinity_v2.15.1.simg Trinity --seqType fq \
+--SS_lib_type RF \
+--max_memory 500G \
+--left All_paired_1.cor.fq.gz \
+--right All_paired_2.cor.fq.gz \
+--output Trinity_All \
+--CPU 30 \
+--min_contig_length 300 \
+--bflyCalculateCPU \
+--inchworm_cpu 20 \
+1>Trinity_All.log 2>Trinity_All.err
+
+exit
