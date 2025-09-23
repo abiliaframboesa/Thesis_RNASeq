@@ -60,7 +60,7 @@ The app is structured into five main tabs, guiding you through a standard transc
 1. PCA Tab
 Purpose: To perform quality control and exploratory data analysis.
 
-![PCA Interface](images/pca_tab.png)
+![PCA Interface](05-App/images/pca_tab.png)
 
 
 Required Files:
@@ -74,7 +74,7 @@ Action: Upload the files and click "Run PCA." The app will generate a PCA plot a
 2. Differential Analysis Tab
 Purpose: To identify genes with significant expression differences between groups.
 
-![Differential Expression Interface](images/diff_exp_tab.png)
+![Differential Expression Interface](05-App/images/diff_exp_tab.png)
 
 Required Files: Use the same metadata and counts files as the PCA step.
 
@@ -87,7 +87,7 @@ Action: Click "Run Differential Analysis." The app will perform DESeq2 analysis 
 3. Heatmap Tab
 Purpose: To visualize the expression patterns of the DEGs.
 
-![Heatmap Interface](images/heatmap_tab.png)
+![Heatmap Interface](05-App/images/heatmap_tab.png)
 
 Inputs: Select the generations and treatments you wish to visualize, and set your desired statistical thresholds.
 Action: Click "Run Heatmap." The app will generate a heatmap with hierarchical clustering of both genes and samples, providing a visual representation of expression patterns.
@@ -95,7 +95,7 @@ Action: Click "Run Heatmap." The app will generate a heatmap with hierarchical c
 4. Transgenerational Comparison Tab
 Purpose: To identify genes whose expression is consistently altered across generations.
 
-![Transgenerational Comparsion Interface](images/trans_comp_tab.png)
+![Transgenerational Comparsion Interface](05-App/images/trans_comp_tab.png)
 
 Inputs: Select which genes you want to display in the Venn diagram (F0, F3, or the Intersection), and set the statistical thresholds.
 Action: Click "Run Comparison." The app will generate a Venn diagram comparing the DEGs from the F0 and F3 generations. The "Intersection" of this diagram is particularly important as it represents genes with a potential transgenerational effect.
@@ -103,8 +103,8 @@ Action: Click "Run Comparison." The app will generate a Venn diagram comparing t
 5. Functional Enrichment Tab
 Purpose: To assign biological meaning to your list of DEGs.
 
-![BarPlot Functional Enrichment Interface](images/barplot_tab.png)
-![Interactive Table Functional Enrichment Interface](images/enrich_table_tab.png)
+![BarPlot Functional Enrichment Interface](05-App/images/barplot_tab.png)
+![Interactive Table Functional Enrichment Interface](05-App/images/enrich_table_tab.png)
 
 Required File:
 Annotation File: An .xlsx file containing functional annotations for your genes. It must include columns: gene, EggNOG, Categoria, GO, KEGG_pathway and EC_number. An example annotation file can be downloaded from the app.
