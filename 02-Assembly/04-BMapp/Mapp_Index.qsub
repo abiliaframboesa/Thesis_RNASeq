@@ -1,0 +1,18 @@
+#!/bin/bash 
+#$ -pe smp 32
+#$ -N Mapp
+#$ -cwd
+#$ -j y
+#$ -S /bin/bash
+#$ -l hostname=!(compute-0-13)
+#$ -o Mapp-stdo.output
+#$ -e Mapp-stderr.output
+#$ -t 1
+
+# Trinity C
+singularity exec /share/apps/singularity/orca-2.simg bowtie2-build Trinity_C.fasta Trinity_C.fasta
+
+# Trinity All - desselecionar para correr
+# singularity exec /share/apps/singularity/orca-2.simg bowtie2-build Trinity_All.fasta Trinity_All.fasta
+
+exit
