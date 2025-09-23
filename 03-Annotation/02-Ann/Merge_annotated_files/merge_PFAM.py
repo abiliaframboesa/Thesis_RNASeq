@@ -1,72 +1,51 @@
+
 import pandas as pd
+import glob
 import os
 
-# Garante que a pasta de resultados existe
-os.makedirs("results/pfam", exist_ok=True)
+# Pasta onde estão os chunks do InterProScan
+pasta_chunks = "dados_galaxy/interproscan/"
 
-# Lê o CSV do PFAM
-df_pfam = pd.read_csv("interproscan_master.csv")
+# Lista todos os arquivos .tabular na pasta
+arquivos = glob.glob(os.path.join(pasta_chunks, "*.tabular"))
 
-# ===============================
-# 1️⃣ PFAM info principal
-# ===============================
-colunas_pfam = [
-    "query_id",
-    "Protein_ID",
-    "PFAM_ID",
-    "PFAM_Description",
-#     "Start",
-#     "End"
+# Lista para armazenar DataFrames
+dfs = []
+
+# Colunas que queremos manter na tabela final
+colunas_relevantes = [
+    "Cluster_file", "Protein_ID", "PFAM_ID", "PFAM_Description",
+    "Start", "End", "GO", "Pathways"
 ]
 
-df_pfam_info = df_pfam[[col for col in colunas_pfam if col in df_pfam.columns]]
-df_pfam_info.to_csv("results/pfam/pfam_info.csv", index=False)
-print(" PFAM info CSV gerado:", df_pfam_info.shape)
+# Loop para ler cada chunk
+for f in arquivos:
+    df = pd.read_csv(
+        f,
+        sep="\t",
+        usecols=lambda c: c in colunas_relevantes,
+        header=None,
+        names=[
+            "Cluster_file", "Protein_ID", "Length", "DB", "DB_ID", "DB_Description",
+            "Start", "End", "Evalue", "T/F", "Date", "PFAM_ID", "PFAM_Description",
+            "GO", "Pathways"
+        ]
+    )
+    # Mantemos só as colunas relevantes
+    df = df[colunas_relevantes]
+    dfs.append(df)
 
-# ===============================
-# 2️⃣ GO termos
-# ===============================
-def formatar_go(go_str):
-    if pd.isna(go_str) or go_str.strip() == "-":
-        return ""
-    termos = go_str.split(",")
-    resultado = []
-    for termo in termos:
-        termo = termo.strip()
-        if not termo:
-            continue
-        go_id = termo
-        descricao = termo
-        # Classificação simples por namespace
-        if go_id.startswith("GO:000367"): 
-            categoria = "molecular_function"
-        elif go_id.startswith("GO:000557"): 
-            categoria = "cellular_component"
-        else:
-            categoria = "biological_process"
-        resultado.append(f"{go_id}^{categoria}^{descricao}")
-    return "`".join(resultado)
 
-df_pfam_go = df_pfam[["query_id", "GO"]].copy()
-df_pfam_go["GO_formatado"] = df_pfam_go["GO"].apply(formatar_go)
-df_pfam_go.to_csv("results/pfam/pfam_go.csv", index=False)
-print(" PFAM GO CSV gerado:", df_pfam_go.shape)
+# Concatena todos os chunks em um único DataFrame
+df_master = pd.concat(dfs, ignore_index=True)
 
-# ===============================
-# 3️⃣ Pathways (MetaCyc, Reactome, etc.)
-# ===============================
-def separar_pathways(pathway_str):
-    if pd.isna(pathway_str) or pathway_str.strip() == "-":
-        return ""
-    return "`".join([p.strip() for p in pathway_str.split("|") if p.strip()])
+# Renomeia colunas principais para padronizar
+df_master.rename(columns={
+    'Cluster_file': 'query_id'
+}, inplace=True)
 
-df_pfam_pathways = df_pfam[["query_id", "Pathways"]].copy()
-df_pfam_pathways["Pathways_formatado"] = df_pfam_pathways["Pathways"].apply(separar_pathways)
-df_pfam_pathways.to_csv("results/pfam/pfam_pathways.csv", index=False)
-print("PFAM Pathways CSV gerado:", df_pfam_pathways.shape)
 
-# ===============================
-# 4️⃣ Master separado (opcional)
-# ===============================
-df_pfam.to_csv("results/pfam/pfam_master_copy.csv", index=False)
-print("PFAM master CSV copiado:", df_pfam.shape)
+# Salva como CSV final
+df_master.to_csv("interproscan_master.csv", index=False)
+print("Master InterProScan CSV gerado com sucesso:", df_master.shape)
+
