@@ -1,4 +1,6 @@
+# Ficheiro com informação sobre eggnog, go, kegg_Pathways
 # Normalizar os nomes dos clusters para ficar padronizado com o resto dos nomes dos clusters
+
 
 import pandas as pd
 import re
