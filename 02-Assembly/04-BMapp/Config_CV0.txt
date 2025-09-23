@@ -1,0 +1,15 @@
+Trinity_C.fasta	All_SC_paired_1.cor.fq.gz	All_SC_paired_2.cor.fq.gz	SC_CV0.sam	SC_CV0.bam	SC_CV0_sorted.bam	SC_CV0_sorted_flagstat.txt
+Trinity_All.fasta	All_paired_1.cor.fq.gz	All_paired_2.cor.fq.gz	All_CV0.sam	All_CV0.bam	All_CV0_sorted.bam	All_CV0_sorted_flagstat.txt
+Trinity_C.fasta 	S320_1G_1_1.fq.gz	S320_1G_1_2.fq.gz	S320_1G_1.sam	S320_1G_1.bam	S320_1G_1_sorted.bam	S320_1G_1_sorted_flagstat.txt
+Trinity_C.fasta 	S320_1G_3_1.fq.gz	S320_1G_3_2.fq.gz	S320_1G_3.sam	S320_1G_3.bam	S320_1G_3_sorted.bam	S320_1G_3_sorted_flagstat.txt
+Trinity_C.fasta 	S320_1G_4_1.fq.gz	S320_1G_4_2.fq.gz	S320_1G_4.sam	S320_1G_4.bam	S320_1G_4_sorted.bam	S320_1G_4_sorted_flagstat.txt
+Trinity_C.fasta 	S320_1G_5_1.fq.gz	S320_1G_5_2.fq.gz	S320_1G_5.sam	S320_1G_5.bam	S320_1G_5_sorted.bam	S320_1G_5_sorted_flagstat.txt
+Trinity_C.fasta 	S320T_4G_2_1.fq.gz	S320T_4G_2_2.fq.gz	S320T_4G_2.sam	S320T_4G_2.bam	S320T_4G_2_sorted.bam	S320T_4G_2_sorted_flagstat.txt
+Trinity_C.fasta 	S320T_4G_3_1.fq.gz	S320T_4G_3_2.fq.gz	S320T_4G_3.sam	S320T_4G_3.bam	S320T_4G_3_sorted.bam	S320T_4G_3_sorted_flagstat.txt
+Trinity_C.fasta 	S320T_4G_5_1.fq.gz	S320T_4G_5_2.fq.gz	S320T_4G_5.sam	S320T_4G_5.bam	S320T_4G_5_sorted.bam	S320T_4G_5_sorted_flagstat.txt
+Trinity_C.fasta 	SC_1G_2_1.fq.gz	SC_1G_2_2.fq.gz	SC_1G_2.sam	SC_1G_2.bam	SC_1G_2_sorted.bam	SC_1G_2_sorted_flagstat.txt
+Trinity_C.fasta 	SC_1G_3_1.fq.gz	SC_1G_3_2.fq.gz	SC_1G_3.sam	SC_1G_3.bam	SC_1G_3_sorted.bam	SC_1G_3_sorted_flagstat.txt
+Trinity_C.fasta 	SC_1G_5_1.fq.gz	SC_1G_5_2.fq.gz	SC_1G_5.sam	SC_1G_5.bam	SC_1G_5_sorted.bam	SC_1G_5_sorted_flagstat.txt
+Trinity_C.fasta 	SC_4G_1_1.fq.gz	SC_4G_1_2.fq.gz	SC_4G_1.sam	SC_4G_1.bam	SC_4G_1_sorted.bam	SC_4G_1_sorted_flagstat.txt
+Trinity_C.fasta 	SC_4G_2_1.fq.gz	SC_4G_2_2.fq.gz	SC_4G_2.sam	SC_4G_2.bam	SC_4G_2_sorted.bam	SC_4G_2_sorted_flagstat.txt
+Trinity_C.fasta 	SC_4G_3_1.fq.gz	SC_4G_3_2.fq.gz	SC_4G_3.sam	SC_4G_3.bam	SC_4G_3_sorted.bam	SC_4G_3_sorted_flagstat.txt
