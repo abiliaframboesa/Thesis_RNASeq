@@ -26,8 +26,10 @@ Getting Started
 Prerequisites
 You need to have R and RStudio installed. The application also requires the following R packages. If you don't have them, you can install them using the provided example code.
 
-# Example for installing a package:
-# install.packages("shiny")
+# 
+
+
+# To run TransDegAnalyser locally, you need to use the following R packages: 
 
 library(shiny)
 library(DESeq2)
@@ -40,6 +42,11 @@ library(readxl)
 library(plotly)
 library(shinythemes)
 library(shinycssloaders)
+
+# If you don't have a specific package:
+## Example for installing a package:
+## install.packages("shiny")
+
 
 Installation and Usage
 Clone this repository to your local machine.
