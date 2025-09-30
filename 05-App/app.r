@@ -18,6 +18,7 @@
   library(shiny)
   library(shinythemes)
   library(shinycssloaders) 
+
   
   ui <- fluidPage(
     theme = shinytheme("flatly"),  # 🔥 Tema moderno e limpo
@@ -157,8 +158,6 @@
                  )
                )
       ),
-      
-      
       
       
       # ---------- PCA ----------
@@ -396,11 +395,7 @@
                  
                  mainPanel(
                    tabsetPanel(
-                     #tabPanel("Overview", 
-                    #          tags$h4("Functional Enrichment Overview"),
-                    #          textOutput("fe_interpretation")
-                    #          
-                    # ),
+
                      tabPanel("Barplot", 
                               tags$h4("Top Enriched Terms (Barplot)"),
                               withSpinner(plotOutput("fe_barplot")),
@@ -409,12 +404,7 @@
                               br(),
                               downloadButton("download_fe_barplot", "📥 Download Barplot")
                      ),
-                     #tabPanel("Dot plot", 
-                    #          tags$h4("Top Enriched Terms (Dot Plot)"),
-                    #          withSpinner(plotOutput("fe_dotplot")),
-                    #          br(),
-                    #          textOutput("fe_dotplot_interpretation")
-                    # ),
+     
                      tabPanel("Interactive Table",
                               br(),
                               textOutput("fe_table_interpretation"),
@@ -450,12 +440,15 @@
     }
     
     # ======================== Example Files Download ========================
+
+    
+
     
     # Example Metadata for PCA / Differential Analysis
     output$download_example_metadata <- downloadHandler(
       filename = function() { "example_metadata.csv" },
       content = function(file) {
-        file.copy("C:/Users/dcssi/OneDrive/Ambiente de Trabalho/Tese/app/metadata2.csv", file)
+        file.copy("example_data/metadata2.csv", file)
       }
     )
     
@@ -463,7 +456,7 @@
     output$download_example_counts <- downloadHandler(
       filename = function() { "example_counts.txt" },
       content = function(file) {
-        file.copy("C:/Users/dcssi/OneDrive/Ambiente de Trabalho/Tese/app/counts_filtered.txt", file)
+        file.copy("example_data/counts_filtered.txt", file)
       }
     )
     
@@ -471,7 +464,7 @@
     output$download_example_annotation <- downloadHandler(
       filename = function() { "example_annotation.xlsx" },
       content = function(file) {
-        file.copy("C:/Users/dcssi/OneDrive/Ambiente de Trabalho/Tese/app/merged_annotations_counts.xlsx", file)
+        file.copy("example_data/merged_annotations_counts.xlsx", file)
       }
     )
     
@@ -506,11 +499,7 @@
       
       df
     })
-    #counts_pca <- reactive({
-    #  req(input$counts_pca)
-    #  read.table(input$counts_pca$datapath, header=TRUE, sep="\t", check.names=FALSE, stringsAsFactors=FALSE, row.names=1)
-    #})
-    
+
     counts_pca <- reactive({
       req(input$counts_pca)
       df <- read.table(
@@ -536,17 +525,19 @@
       counts <- counts[keep,]
       
       dds <- DESeqDataSetFromMatrix(countData = round(counts),
-                                    colData = data.frame(row.names=meta$sample_id, group=meta$grupo_combinado),
-                                    design = ~ group)
+                                    colData = data.frame(row.names=meta$sample_id, grupo_combinado=meta$grupo_combinado),
+                                    design = ~ grupo_combinado)
       vst_data <- vst(dds, blind=TRUE)
       
-      pca_data <- plotPCA(vst_data, intgroup="group", returnData=TRUE)
+      pca_data <- plotPCA(vst_data, intgroup="grupo_combinado", returnData=TRUE)
       percentVar <- round(100 * attr(pca_data, "percentVar"))
+      
+      # Adiciona sample_id para usar como label
+      pca_data$name <- rownames(pca_data)
+      
       
       list(pca_data=pca_data, percentVar=percentVar)
     })
-    
-    
     
     
     #output$pca_plot <- renderPlot({
@@ -555,8 +546,9 @@
       pca_data <- pca_result()$pca_data
       percentVar <- pca_result()$percentVar
       
-      ggplot(pca_data, aes(PC1, PC2, color=group)) +
+      ggplot(pca_data, aes(PC1, PC2, color=grupo_combinado, label=name)) +
         geom_point(size=4) +
+        geom_text_repel(size=3, max.overlaps=30) +
         xlab(paste0("PC1: ", percentVar[1], "% variance")) +
         ylab(paste0("PC2: ", percentVar[2], "% variance")) +
         labs(title = "Principal Component Analysis (PCA)") +
@@ -569,16 +561,6 @@
     })
     
     
-    
-    #output$download_pca_plot <- downloadHandler(
-    #  filename = function() { paste0("PCA_plot_", Sys.Date(), ".png") },
-    #  content = function(file) {
-    #    plot_obj <- isolate(pca_plot_gg())   # <--- força a usar o objeto atual
-    #    validate(need(!is.null(plot_obj), "PCA plot not available for download"))
-    #    ggsave(file, plot = last_plot(), device = "png", width = 8, height = 6)
-    #  }
-    #)
-    
     # Download do plot PCA
     output$download_pca_plot <- downloadHandler(
       filename = function() { paste0("PCA_plot_", Sys.Date(), ".png") },
@@ -587,47 +569,6 @@
         ggsave(file, plot = pca_plot_gg(), width = 8, height = 6, dpi = 300)
       }
     )
-    
-    #output$pca_plot <- renderPlotly({
-    #  req(pca_result())
-    
-    #  pca_data <- pca_result()$pca_data
-    #  percentVar <- pca_result()$percentVar
-    
-    # Garante que existe uma coluna com o nome da amostra
-    #  if(!"name" %in% colnames(pca_data)) {
-    #    pca_data$name <- rownames(pca_data)
-    #  }
-    
-    #  p <- ggplot(pca_data, aes(x = PC1, y = PC2, color = group, text = name)) +
-    #    geom_point(size = 4) +
-    #    xlab(paste0("PC1: ", percentVar[1], "% variância")) +
-    #    ylab(paste0("PC2: ", percentVar[2], "% variância")) +
-    #    theme_minimal()
-    #  
-    #  ggplotly(p, tooltip = "text")
-    #})
-    
-    #output$pca_plot <- renderPlotly({
-    #  req(pca_result())
-    
-    #  pca_data <- pca_result()$pca_data
-    #  percentVar <- pca_result()$percentVar
-    
-    # Garante que existe uma coluna com o nome da amostra
-    #  if(!"name" %in% colnames(pca_data)) {
-    #    pca_data$name <- rownames(pca_data)
-    #  }
-    
-    #  p <- ggplot(pca_data, aes(x = PC1, y = PC2, color = group, text = name)) +
-    #    geom_point(size = 4) +
-    #    xlab(paste0("PC1: ", percentVar[1], "% variância")) +
-    #    ylab(paste0("PC2: ", percentVar[2], "% variância")) +
-    #    theme_minimal()
-    
-    #  ggplotly(p, tooltip = "text")
-    #})
-    
     
     
     # --- SHORT INTERPRETATION BELOW THE PLOT ---
@@ -868,14 +809,6 @@
         ", while ", n_down, " (", perc_down, "%) were downregulated, meaning their expression was higher in ", input$treatment_levels[1], ".\n"
       )
       
-      # Adiciona info de alterações fortes, se houver
-      #if(n_strong_up + n_strong_down > 0){
-      #  txt <- paste0(
-      #    txt,
-      #    "Notably, ", n_strong_up, " upregulated and ", n_strong_down, 
-      #    " downregulated genes showed stronger changes (|log2FC| > 2), indicating particularly pronounced differences.\n"
-      #  )
-      #}
       
       # Conclui o texto
       txt <- paste0(
@@ -885,43 +818,6 @@
       
       txt
     })
-    
-
-    
-   # })
-    
-    
-    
-    
-    
-    
-    
-    #output$volcano_plot <- renderPlotly({
-    #  res <- diff_results()
-    #  req(res)
-    
-    #  res_df <- res[!is.na(res$pvalue) & !is.na(res$padj), ]
-    #  res_df$significativo <- ifelse(
-    #    res_df$padj < input$pval_threshold & abs(res_df$log2FoldChange) >= input$lfc_threshold,
-    #    "Sim", "Não"
-    #  )
-    
-    # Cria o gráfico ggplot
-    #  p <- ggplot(res_df, aes(
-    #    x = log2FoldChange,
-    #    y = -log10(pvalue),
-    #    color = significativo,
-    #    text = paste0("Gene: ", gene, "<br>Protein: ", Protein,
-    #                  "<br>log2FC: ", round(log2FoldChange, 2),
-    #                  "<br>p-adj: ", signif(padj, 3))
-    #  )) +
-    #    geom_point(alpha = 0.7) +
-    #    scale_color_manual(values = c("Sim" = "red", "Não" = "gray")) +
-    #    theme_minimal() +
-    #    labs(x = "log2 Fold Change", y = "-log10(p-valor)", color = "Significativo")
-    
-    #  ggplotly(p, tooltip = "text")
-    #})
     
     
     output$diff_table_title <- renderUI({
@@ -947,11 +843,7 @@
       num_cols <- c("log2FoldChange", "pvalue", "padj")
       res_df[num_cols] <- lapply(res_df[num_cols], format_num)
       
-      #res_df$log2FoldChange <- round(res_df$log2FoldChange, 2)
-      #res_df$pvalue <- signif(res_df$pvalue, 2)
-      #res_df$padj <- signif(res_df$padj, 2)
-      
-      
+
       datatable(
         res_df[, c("gene", "Protein", "log2FoldChange", "pvalue", "padj")],
         options = list(pageLength = 10),
@@ -1155,30 +1047,6 @@
     
     
     
-    
-    
-    
-    
-    #message(">> Desenhando heatmap...")
-    #ph <- pheatmap(mat[1:min(50,nrow(mat)), ],
-    #               scale="row",
-    #               show_rownames=FALSE,
-    #               annotation_col=annotation_col,
-    #               silent=TRUE)
-    #grid::grid.newpage()
-    #grid::grid.draw(ph$gtable)
-    #message(">> Heatmap pronto!")
-    #}
-    
-    
-    #pheatmap(mat[1:50, ], 
-    #scale = "row", 
-    #show_rownames = FALSE, 
-    #annotation_col = annotation_col)
-    
-    #}
-    
-    
     # ======================================================== Transgenerational Comparison ====================
     venn_results <- eventReactive(input$run_venn, {
       meta <- metadata_diff()
@@ -1321,15 +1189,6 @@
       datatable(selected_fmt, options = list(pageLength = 10), rownames=FALSE)
     })
       
-      # 🔥 Formatar colunas numéricas para 2 casas decimais
-      #selected_fmt <- selected[, cols_to_show, drop = FALSE]
-      #num_cols <- sapply(selected_fmt, is.numeric)
-      #selected_fmt[num_cols] <- lapply(selected_fmt[num_cols], function(x) round(x, 2))
-      
-      #datatable(selected_fmt, options = list(pageLength=10), rownames=FALSE)
-      
-      #datatable(selected[, cols_to_show, drop = FALSE], options = list(pageLength=10), rownames=FALSE)
-    #})
     
     output$download_venn_table <- downloadHandler(
       filename = function() {
@@ -1524,9 +1383,9 @@
         labs(x = "", y = "Number of genes") +
         theme_minimal(base_size = 8) +  # 🔥 base de texto menor ainda
         theme(
-          axis.text.y = element_text(size = 6),      # 🔥 labels muito pequenas
-          axis.text.x = element_text(size = 6),
-          strip.text = element_text(size = 7, face = "bold"),
+          axis.text.y = element_text(size = 8),      # 🔥 labels muito pequenas
+          axis.text.x = element_text(size = 8),
+          strip.text = element_text(size = 12, face = "bold"),
           plot.margin = margin(5, 5, 5, 5)
         )
     })
@@ -1570,11 +1429,6 @@
         )
       }
     )
-    
-    
-
-    
-    
     
     
     
@@ -1634,9 +1488,6 @@
       }
     )
     
-
-    
-    
     
     # --- Table ---
     
@@ -1656,10 +1507,7 @@
       num_cols <- sapply(df, is.numeric)
       df[num_cols] <- lapply(df[num_cols], format_num)
       
-      # 🔥 Formatar numéricas para 2 casas decimais
-      #num_cols <- sapply(df, is.numeric)
-      #df[num_cols] <- lapply(df[num_cols], function(x) round(x, 2))
-      
+
       # 🔥 Reordenar colunas (se existirem)
       col_order <- c(
         "gene", 
@@ -1725,4 +1573,6 @@
   
   shinyApp(ui, server)
   
+  
+
   
