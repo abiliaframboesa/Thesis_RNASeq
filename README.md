@@ -1,5 +1,6 @@
 # Thesis_RNASeq
 
+# TransDegAnalyser
 TransDegAnalyser: TransDegAnalyser is a user-friendly R Shiny application designed to perform comprehensive transcriptomic analysis, with a specific focus on identifying transgenerational gene expression effects. The application streamlines the entire analytical workflow, from initial data quality control and differential expression analysis to advanced visualization and functional enrichment interpretation.
 
 # How to run TransDegAnalyser
