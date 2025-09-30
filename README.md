@@ -43,9 +43,8 @@ library(plotly)
 library(shinythemes)
 library(shinycssloaders)
 
-# If you don't have a specific package:
-## Example for installing a package:
-## install.packages("shiny")
+# If you don't have a specific package, run:
+## install.packages("the_package_here")
 
 
 Installation and Usage
