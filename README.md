@@ -1,10 +1,44 @@
 # Thesis_RNASeq
 
-TransDegAnalyser: A Shiny App for Transgenerational Gene Expression Analysis
-Overview
-TransDegAnalyser is a user-friendly R Shiny application designed to perform comprehensive transcriptomic analysis, with a specific focus on identifying transgenerational gene expression effects. The application streamlines the entire analytical workflow, from initial data quality control and differential expression analysis to advanced visualization and functional interpretation.
+TransDegAnalyser: TransDegAnalyser is a user-friendly R Shiny application designed to perform comprehensive transcriptomic analysis, with a specific focus on identifying transgenerational gene expression effects. The application streamlines the entire analytical workflow, from initial data quality control and differential expression analysis to advanced visualization and functional enrichment interpretation.
 
-The central goal of the app is to help researchers uncover persistent biological effects that are inherited across generations that were never directly exposed to an environmental stimulus.
+
+# How to run TransDegAnalyser:
+You can run TransDegAnalyser locally using RStudio by opening and running the file "app.R", which is located in the folder "05-App" of this repository.
+
+The files required to perform the analysis and obtain the results presented in this thesis are also located in the same folder. These files are:
+- "metadata2.csv"; 
+- "counts_with_annotation.txt"; 
+- "anotacoes_convertidas_sem_maps_e_go.xlsx" and you can upload them in the app.
+
+You can upload these files directly in the app to run your analysis.
+
+Additionally, the app provides example files that can be downloaded directly. These files are stored in the folder "example_files". If you do not clone this repository to your local environment, you may need to download these example files separately, as they will not be available if you only run the app code in RStudio.
+
+To run TransDegAnalyser locally, you need to use the following R packages: 
+library(shiny)
+library(DESeq2)
+library(ggplot2)
+library(DT)
+library(pheatmap)
+library(VennDiagram)
+library(grid)
+library(readxl)
+library(plotly)
+library(shinythemes)
+library(shinycssloaders)
+
+# If you don't have a specific package, run:
+## install.packages("the_package_here")
+
+
+
+
+
+
+
+
+
 
 ![Welcome Interface](05-App/images/welcome_tab.png)
 
@@ -28,23 +62,6 @@ You need to have R and RStudio installed. The application also requires the foll
 
 # 
 
-
-# To run TransDegAnalyser locally, you need to use the following R packages: 
-
-library(shiny)
-library(DESeq2)
-library(ggplot2)
-library(DT)
-library(pheatmap)
-library(VennDiagram)
-library(grid)
-library(readxl)
-library(plotly)
-library(shinythemes)
-library(shinycssloaders)
-
-# If you don't have a specific package, run:
-## install.packages("the_package_here")
 
 
 Installation and Usage
