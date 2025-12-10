@@ -18,6 +18,7 @@ You need to have R and RStudio installed. The application also requires the foll
 - library(plotly)
 - library(shinythemes)
 - library(shinycssloaders)
+- library(ggrepel)
 
 If you don't have a specific package, you can install them using the provided example code.
 - install.packages("the_package_here")
